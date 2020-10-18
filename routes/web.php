@@ -17,6 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/about', function () {
+    return Inertia\Inertia::render('About');
+})->name('about');
+
+Route::get('/contactus', function () {
+    return Inertia\Inertia::render('Contactus');
+})->name('contactus');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
