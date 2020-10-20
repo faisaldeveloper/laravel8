@@ -25,6 +25,10 @@
                             <jet-nav-link :href="route('contactus')" :active="$page.currentRouteName == 'contactus'">
                                 Contact Us
                             </jet-nav-link>
+
+                            <jet-nav-link :href="route('category.index')" :active="$page.currentRouteName == 'category.index'">
+                                Category
+                            </jet-nav-link>
                         </div>
                     </div>
 

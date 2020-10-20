@@ -25,6 +25,8 @@ Route::get('/contactus', function () {
     return Inertia\Inertia::render('Contactus');
 })->name('contactus');
 
+Route::resource('category', App\Http\Controllers\CategoryController::class);
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
