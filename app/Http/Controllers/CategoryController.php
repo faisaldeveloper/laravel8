@@ -48,7 +48,11 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        // return response()->json($category);
+        
+        $data = Category::Findorfail($category->id);
+        //dd("uuy".$data);
+        return Inertia::render('Category/show', ['row' => $data]);
     }
 
     /**

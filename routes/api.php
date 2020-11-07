@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//Route::resource('/category', 'CategoryController');
+//Route::get('/category/{category}/tasks', 'CategoryController@tasks');
+Route::resource('task', App\Http\Controllers\TaskController::class);
+Route::get('category/{category}/tasks', 'CategoryController@tasks');
+Route::resource('category', App\Http\Controllers\CategoryController::class);
