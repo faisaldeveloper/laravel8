@@ -6,6 +6,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use App\Models\Task;
+
 class CategoryController extends Controller
 {
     /**
@@ -24,9 +26,21 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /*public function trello()
+    {
+        $categories = Category::with('tasks')->get();
+        return Inertia::render('Category/board', ['categories' => $categories]);
+    }*/
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
-        //
+        $categories = Category::with('tasks')->get();
+        return Inertia::render('Category/board', ['categories' => $categories]);
     }
 
     /**

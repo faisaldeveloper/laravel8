@@ -29,6 +29,10 @@
                             <jet-nav-link :href="route('category.index')" :active="$page.currentRouteName == 'category.index'">
                                 Category
                             </jet-nav-link>
+
+                            <jet-nav-link :href="route('category.create')" :active="$page.currentRouteName == 'category.create'">
+                                Trello
+                            </jet-nav-link>
                         </div>
                     </div>
 

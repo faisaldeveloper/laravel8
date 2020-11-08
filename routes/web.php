@@ -26,6 +26,9 @@ Route::get('/contactus', function () {
 })->name('contactus');
 
 Route::resource('category', App\Http\Controllers\CategoryController::class);
+//Route::get('category/trello', [CategoryController::class, 'trello'])->name('trello');
+
+//Route::get('category/trello', App\Http\Controllers\CategoryController::class)->name('trello');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
