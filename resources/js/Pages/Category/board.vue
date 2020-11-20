@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Trello Board
+                Trello Boardddd
             </h2>
         </template>
 
@@ -50,8 +50,8 @@
                 </div>
         </div>
 
-            <!--  trell cards -->
-                <draggable element="div" class="flex px-2 pb-8" v-model="categories" :options="dragOptions">
+            <!--  trello cards main -->
+                <draggable element="div" class="flex px-2 pb-8" v-model="categories" :options="dragOptions1">
                 <transition-group class="flex px-2">
 
                 <div class="flex px-2 pb-8 items-start" v-for="element,index in categories" :key="element.id">               
@@ -61,24 +61,34 @@
                 <div class="flex justify-between py-1">
                     <h3 class="text-sm"><b>{{element.name}}</b></h3>
                     <svg class="h-4 fill-current text-grey-dark cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 10a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4z"/></svg>
-                    </div>
-
-                    <div class="text-sm mt-2">
-                        <draggable :options="dragOptions" element="div" @end="changeOrder" class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter" v-model="element.tasks">
-
+                </div>
+                    
+                        <!--  trello cards sub -->                        
+                        <draggable element="div" @end="changeOrder" v-model="element.tasks" :options="dragOptions">             
                         <transition-group :id="element.id">
                             <div v-for="task,index in element.tasks" :key="task.category_id+','+task.order" class="transit-1" :id="task.id">
-
+                                <div class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
+                            <div class="text-sm mt-2">
                             <label for="checkbox">{{ task.name }} - 55</label>
+                            
                             </div>
-                        </transition-group>
+                            </div>
+                            </div>
+                        </transition-group>                        
                         </draggable>
-                        <p class="mt-3 bg-indigo-200 text-grey-dark">Add a card...</p>
-                </div>
-                </div>                
+                        <!--  end trello cards sub -->
+
+
+                        <p class="mt-3 bg-indigo-200 text-grey-dark">
+                            <form @submit.prevent="submit2(index)">
+                            <input type="text" name="tname" v-model="tname" placeholder="add new task">                        
+                            <button type="submit">Add</button>
+                        </form>
+                        </p> 
+                </div>                          
                 </div>
                 </transition-group>
-                </draggable>      <!-- end trell cards -->     
+                </draggable>      <!-- end trello cards main -->     
         
     </div><!-- end component -->
   
@@ -100,10 +110,39 @@
                 draggable
             },
             props: ['categories', 'tasks'],
-            
+
+            data(){
+                return {
+                    tname,
+                    form: {
+                        name:'',
+                        category_id: '',
+                        user_id: '',
+                        order: ''
+                    }
+                }
+            },            
             methods : {
-                addNew(id) {
-                },
+                submit2(id) {
+                    //console.log(this.form.name[index]);
+                   // this.name = submitEvent.target.elements.name.value
+
+                    
+                    var f = this.getformfields;
+                    console.log(f);
+
+                    alert('adding new:'+this.tname);
+
+                    
+                    this.form.name = 'mkjhg';
+                    this.form.category_id = this.categories[id].id;
+                    this.form.user_id = 1;
+                    this.form.order = this.categories[id].tasks.length;
+                    
+                    //console.log(this.form);
+
+                    this.$inertia.post('/task', this.form)
+                },                
                 loadTasks() {
                 },
                 changeOrder(data){
@@ -123,6 +162,16 @@
                     group: 'description',
                     ghostClass: 'ghost'
                   };
+                },
+                getformfields(){
+                    return {                    
+                        form: {
+                            name:'',
+                            category_id: '',
+                            user_id: '',
+                            order: ''
+                        }
+                    };
                 },
             }
             

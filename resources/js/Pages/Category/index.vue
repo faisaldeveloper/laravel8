@@ -25,7 +25,8 @@
                         <tr v-for="row in categories">
                           <td class="border px-4 py-2">{{row.id}}</td>
                           <td class="border px-4 py-2">{{row.name}}</td>
-                          <td class="border px-4 py-2">View</td>
+                          <td class="border px-4 py-2"><inertia-link :href="route('category.create')">Create category</inertia-link>
+</td>
                         </tr>                      
                       </tbody>
                     </table>

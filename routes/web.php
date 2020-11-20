@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//use App\Http\Controllers\CategoryController;
+//use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,8 @@ Route::get('/contactus', function () {
     return Inertia\Inertia::render('Contactus');
 })->name('contactus');
 
-Route::resource('category', App\Http\Controllers\CategoryController::class);
+Route::resource('category', CategoryController::class);
+Route::resource('task', TaskController::class);
 //Route::get('category/trello', [CategoryController::class, 'trello'])->name('trello');
 
 //Route::get('category/trello', App\Http\Controllers\CategoryController::class)->name('trello');
@@ -35,4 +38,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 
-Route::resource('posts', App\Http\Controllers\PostController::class);
+Route::resource('posts', PostController::class);

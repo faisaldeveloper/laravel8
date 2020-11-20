@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TaskController extends Controller
 {
@@ -48,7 +49,8 @@ class TaskController extends Controller
             'message' => $task ? 'Task Created!' : 'Error Creating Task',
         ];
 
-        return response()->json($data);
+        //return response()->json($data);
+        return redirect()->route('category.create');
     }
 
     /**

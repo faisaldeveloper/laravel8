@@ -112,6 +112,161 @@ function e(e){return e&&"object"==typeof e&&"default"in e?e.default:e}var t=e(__
 
 /***/ }),
 
+/***/ "./node_modules/@inertiajs/progress/src/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@inertiajs/progress/src/index.js ***!
+  \*******************************************************/
+/*! exports provided: InertiaProgress */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _progress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./progress */ "./node_modules/@inertiajs/progress/src/progress.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "InertiaProgress", function() { return _progress__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@inertiajs/progress/src/progress.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@inertiajs/progress/src/progress.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
+
+
+let timeout = null
+
+function addEventListeners(delay) {
+  document.addEventListener('inertia:start', start.bind(null, delay))
+  document.addEventListener('inertia:progress', progress)
+  document.addEventListener('inertia:finish', finish)
+}
+
+function start(delay) {
+  timeout = setTimeout(() => nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.start(), delay)
+}
+
+function progress(event) {
+  if (nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.isStarted() && event.detail.progress.percentage) {
+    nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.set(Math.max(nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.status, event.detail.progress.percentage / 100 * 0.9))
+  }
+}
+
+function finish(event) {
+  clearTimeout(timeout)
+  if (!nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.isStarted()) {
+    return
+  } else if (event.detail.visit.completed) {
+    nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done()
+  } else if (event.detail.visit.interrupted) {
+    nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.set(0)
+  } else if (event.detail.visit.cancelled) {
+    nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done()
+    nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.remove()
+  }
+}
+
+function injectCSS(color) {
+  const element = document.createElement('style')
+  element.type = 'text/css'
+  element.textContent = `
+    #nprogress {
+      pointer-events: none;
+    }
+
+    #nprogress .bar {
+      background: ${color};
+
+      position: fixed;
+      z-index: 1031;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 2px;
+    }
+
+    #nprogress .peg {
+      display: block;
+      position: absolute;
+      right: 0px;
+      width: 100px;
+      height: 100%;
+      box-shadow: 0 0 10px ${color}, 0 0 5px ${color};
+      opacity: 1.0;
+
+      -webkit-transform: rotate(3deg) translate(0px, -4px);
+          -ms-transform: rotate(3deg) translate(0px, -4px);
+              transform: rotate(3deg) translate(0px, -4px);
+    }
+
+    #nprogress .spinner {
+      display: block;
+      position: fixed;
+      z-index: 1031;
+      top: 15px;
+      right: 15px;
+    }
+
+    #nprogress .spinner-icon {
+      width: 18px;
+      height: 18px;
+      box-sizing: border-box;
+
+      border: solid 2px transparent;
+      border-top-color: ${color};
+      border-left-color: ${color};
+      border-radius: 50%;
+
+      -webkit-animation: nprogress-spinner 400ms linear infinite;
+              animation: nprogress-spinner 400ms linear infinite;
+    }
+
+    .nprogress-custom-parent {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .nprogress-custom-parent #nprogress .spinner,
+    .nprogress-custom-parent #nprogress .bar {
+      position: absolute;
+    }
+
+    @-webkit-keyframes nprogress-spinner {
+      0%   { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes nprogress-spinner {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  `
+  document.head.appendChild(element)
+}
+
+const Progress = {
+  init({ delay = 250, color = '#29d', includeCSS = true, showSpinner = false } = {}) {
+    addEventListeners(delay)
+    nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.configure({ showSpinner })
+    if (includeCSS) {
+      injectCSS(color)
+    }
+  },
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Progress);
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -3575,6 +3730,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3584,8 +3749,31 @@ __webpack_require__.r(__webpack_exports__);
     draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   props: ['categories', 'tasks'],
+  data: function data() {
+    return {
+      tname: tname,
+      form: {
+        name: '',
+        category_id: '',
+        user_id: '',
+        order: ''
+      }
+    };
+  },
   methods: {
-    addNew: function addNew(id) {},
+    submit2: function submit2(id) {
+      //console.log(this.form.name[index]);
+      // this.name = submitEvent.target.elements.name.value
+      var f = this.getformfields;
+      console.log(f);
+      alert('adding new:' + this.tname);
+      this.form.name = 'mkjhg';
+      this.form.category_id = this.categories[id].id;
+      this.form.user_id = 1;
+      this.form.order = this.categories[id].tasks.length; //console.log(this.form);
+
+      this.$inertia.post('/task', this.form);
+    },
     loadTasks: function loadTasks() {},
     changeOrder: function changeOrder(data) {},
     endEditing: function endEditing(task) {},
@@ -3600,6 +3788,16 @@ __webpack_require__.r(__webpack_exports__);
         animation: 1,
         group: 'description',
         ghostClass: 'ghost'
+      };
+    },
+    getformfields: function getformfields() {
+      return {
+        form: {
+          name: '',
+          category_id: '',
+          user_id: '',
+          order: ''
+        }
       };
     }
   }
@@ -3841,6 +4039,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+//
 //
 //
 //
@@ -31562,7 +31761,7 @@ var render = function() {
                   staticClass:
                     "font-semibold text-xl text-gray-800 leading-tight"
                 },
-                [_vm._v("\n            Trello Board\n        ")]
+                [_vm._v("\n            Trello Boardddd\n        ")]
               )
             ]
           },
@@ -31806,7 +32005,7 @@ var render = function() {
                     "draggable",
                     {
                       staticClass: "flex px-2 pb-8",
-                      attrs: { element: "div", options: _vm.dragOptions },
+                      attrs: { element: "div", options: _vm.dragOptions1 },
                       model: {
                         value: _vm.categories,
                         callback: function($$v) {
@@ -31867,79 +32066,132 @@ var render = function() {
                                   ),
                                   _vm._v(" "),
                                   _c(
-                                    "div",
-                                    { staticClass: "text-sm mt-2" },
+                                    "draggable",
+                                    {
+                                      attrs: {
+                                        element: "div",
+                                        options: _vm.dragOptions
+                                      },
+                                      on: { end: _vm.changeOrder },
+                                      model: {
+                                        value: element.tasks,
+                                        callback: function($$v) {
+                                          _vm.$set(element, "tasks", $$v)
+                                        },
+                                        expression: "element.tasks"
+                                      }
+                                    },
                                     [
                                       _c(
-                                        "draggable",
-                                        {
-                                          staticClass:
-                                            "bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter",
-                                          attrs: {
-                                            options: _vm.dragOptions,
-                                            element: "div"
-                                          },
-                                          on: { end: _vm.changeOrder },
-                                          model: {
-                                            value: element.tasks,
-                                            callback: function($$v) {
-                                              _vm.$set(element, "tasks", $$v)
+                                        "transition-group",
+                                        { attrs: { id: element.id } },
+                                        _vm._l(element.tasks, function(
+                                          task,
+                                          index
+                                        ) {
+                                          return _c(
+                                            "div",
+                                            {
+                                              key:
+                                                task.category_id +
+                                                "," +
+                                                task.order,
+                                              staticClass: "transit-1",
+                                              attrs: { id: task.id }
                                             },
-                                            expression: "element.tasks"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "transition-group",
-                                            { attrs: { id: element.id } },
-                                            _vm._l(element.tasks, function(
-                                              task,
-                                              index
-                                            ) {
-                                              return _c(
+                                            [
+                                              _c(
                                                 "div",
                                                 {
-                                                  key:
-                                                    task.category_id +
-                                                    "," +
-                                                    task.order,
-                                                  staticClass: "transit-1",
-                                                  attrs: { id: task.id }
+                                                  staticClass:
+                                                    "bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter"
                                                 },
                                                 [
                                                   _c(
-                                                    "label",
+                                                    "div",
                                                     {
-                                                      attrs: { for: "checkbox" }
+                                                      staticClass:
+                                                        "text-sm mt-2"
                                                     },
                                                     [
-                                                      _vm._v(
-                                                        _vm._s(task.name) +
-                                                          " - 55"
+                                                      _c(
+                                                        "label",
+                                                        {
+                                                          attrs: {
+                                                            for: "checkbox"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(task.name) +
+                                                              " - 55"
+                                                          )
+                                                        ]
                                                       )
                                                     ]
                                                   )
                                                 ]
                                               )
-                                            }),
-                                            0
+                                            ]
                                           )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "p",
-                                        {
-                                          staticClass:
-                                            "mt-3 bg-indigo-200 text-grey-dark"
-                                        },
-                                        [_vm._v("Add a card...")]
+                                        }),
+                                        0
                                       )
                                     ],
                                     1
-                                  )
-                                ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", {
+                                    staticClass:
+                                      "mt-3 bg-indigo-200 text-grey-dark"
+                                  }),
+                                  _c(
+                                    "form",
+                                    {
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.submit2(index)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.tname,
+                                            expression: "tname"
+                                          }
+                                        ],
+                                        attrs: {
+                                          type: "text",
+                                          name: "tname",
+                                          placeholder: "add new task"
+                                        },
+                                        domProps: { value: _vm.tname },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.tname = $event.target.value
+                                          }
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        { attrs: { type: "submit" } },
+                                        [_vm._v("Add")]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p")
+                                ],
+                                1
                               )
                             ]
                           )
@@ -32816,7 +33068,7 @@ var render = function() {
                   staticClass:
                     "font-semibold text-xl text-gray-800 leading-tight"
                 },
-                [_vm._v("\n            Category US\n        ")]
+                [_vm._v("\n                Category US\n            ")]
               )
             ]
           },
@@ -32857,9 +33109,18 @@ var render = function() {
                         _vm._v(_vm._s(row.name))
                       ]),
                       _vm._v(" "),
-                      _c("td", { staticClass: "border px-4 py-2" }, [
-                        _vm._v("View")
-                      ])
+                      _c(
+                        "td",
+                        { staticClass: "border px-4 py-2" },
+                        [
+                          _c(
+                            "inertia-link",
+                            { attrs: { href: _vm.route("category.create") } },
+                            [_vm._v("Create category")]
+                          )
+                        ],
+                        1
+                      )
                     ])
                   }),
                   0
@@ -51623,7 +51884,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! portal-vue */ "./node_modules/portal-vue/dist/portal-vue.common.js");
 /* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _inertiajs_progress_src__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/progress/src */ "./node_modules/@inertiajs/progress/src/index.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 
 
@@ -51637,6 +51900,17 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__["InertiaApp"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__["InertiaForm"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_3___default.a);
+_inertiajs_progress_src__WEBPACK_IMPORTED_MODULE_4__["InertiaProgress"].init({
+  // The delay after which the progress bar will
+  // appear during navigation, in milliseconds.
+  delay: 10,
+  // The color of the progress bar.
+  color: '#29d',
+  // Whether to include the default NProgress styles.
+  includeCSS: true,
+  // Whether the NProgress spinner will be shown.
+  showSpinner: false
+});
 var app = document.getElementById('app');
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   render: function render(h) {
