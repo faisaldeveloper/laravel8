@@ -3462,7 +3462,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3813,10 +3812,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
-//
-//
-//
-//
 //
 //
 //
@@ -30063,36 +30058,6 @@ var render = function() {
                     "jet-nav-link",
                     {
                       attrs: {
-                        href: _vm.route("about"),
-                        active: _vm.$page.currentRouteName == "about"
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                            About\n                        "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "jet-nav-link",
-                    {
-                      attrs: {
-                        href: _vm.route("contactus"),
-                        active: _vm.$page.currentRouteName == "contactus"
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                            Contact Us\n                        "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "jet-nav-link",
-                    {
-                      attrs: {
                         href: _vm.route("category.index"),
                         active: _vm.$page.currentRouteName == "category.index"
                       }
@@ -30130,6 +30095,36 @@ var render = function() {
                     [
                       _vm._v(
                         "\n                            Movies\n                        "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "jet-nav-link",
+                    {
+                      attrs: {
+                        href: _vm.route("about"),
+                        active: _vm.$page.currentRouteName == "about"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            About\n                        "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "jet-nav-link",
+                    {
+                      attrs: {
+                        href: _vm.route("contactus"),
+                        active: _vm.$page.currentRouteName == "contactus"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            Contact Us\n                        "
                       )
                     ]
                   )
@@ -31500,21 +31495,7 @@ var render = function() {
           _c(
             "div",
             { staticClass: "bg-white overflow-hidden shadow-xl sm:rounded-lg" },
-            [
-              _c("p", [_vm._v("This is about page. " + _vm._s(_vm.message))]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.callme()
-                    }
-                  }
-                },
-                [_vm._v("Addrrttt")]
-              )
-            ]
+            [_c("p", [_vm._v("This is about page. " + _vm._s(_vm.message))])]
           )
         ])
       ])
@@ -32244,48 +32225,6 @@ var render = function() {
             "div",
             { staticClass: "bg-white overflow-hidden shadow-xl sm:rounded-lg" },
             [_c("p", [_vm._v("This is Contact Us page.")])]
-          ),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submit2()
-                }
-              }
-            },
-            [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.tname,
-                    expression: "tname"
-                  }
-                ],
-                attrs: {
-                  type: "text",
-                  name: "tname",
-                  placeholder: "add new task"
-                },
-                domProps: { value: _vm.tname },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.tname = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("button", { attrs: { type: "submit" } }, [_vm._v("Added")])
-            ]
           )
         ])
       ])

@@ -10,12 +10,8 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <p>This is Contact Us page.</p>
-                </div>
-                <br>
-                <form @submit.prevent="submit2()">
-                            <input type="text" name="tname" v-model="tname" placeholder="add new task">    
-                            <button type="submit">Added</button>
-                        </form>
+                </div>              
+                
             </div>
         </div>
     </app-layout>

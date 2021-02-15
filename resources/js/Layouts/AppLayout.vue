@@ -16,15 +16,7 @@
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <jet-nav-link :href="route('dashboard')" :active="$page.currentRouteName == 'dashboard'">
                                 Dashboard
-                            </jet-nav-link>
-
-                            <jet-nav-link :href="route('about')" :active="$page.currentRouteName == 'about'">
-                                About
-                            </jet-nav-link>
-
-                            <jet-nav-link :href="route('contactus')" :active="$page.currentRouteName == 'contactus'">
-                                Contact Us
-                            </jet-nav-link>
+                            </jet-nav-link>                            
 
                             <jet-nav-link :href="route('category.index')" :active="$page.currentRouteName == 'category.index'">
                                 Category
@@ -36,6 +28,14 @@
 
                             <jet-nav-link :href="route('movie')" :active="$page.currentRouteName == 'movie'">
                                 Movies
+                            </jet-nav-link>
+
+                            <jet-nav-link :href="route('about')" :active="$page.currentRouteName == 'about'">
+                                About
+                            </jet-nav-link>
+
+                            <jet-nav-link :href="route('contactus')" :active="$page.currentRouteName == 'contactus'">
+                                Contact Us
                             </jet-nav-link>
 
                         </div>
