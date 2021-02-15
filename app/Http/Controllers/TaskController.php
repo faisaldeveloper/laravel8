@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Redirect;
 
 class TaskController extends Controller
 {
@@ -15,7 +17,14 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        //echo 'asdfsafdsfs555'; exit;
+
+        $old_category_id =2;
+        $old_order=2;
+
+        $this->updateFromList($old_category_id, $old_order);
+
+
     }
 
     /**
@@ -83,8 +92,67 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Task $task)
-    {
-        //
+    {         
+         
+        /*if($task->category_id == $request->category_id){
+            return Redirect::back();
+         }*/
+
+         $old_category_id = $task->category_id;
+         $old_order = $task->order;
+
+
+         if($request->order !=false){
+            $task->order = $request->order+1;
+         }
+         if($request->category_id !=null){
+            $task->category_id = $request->category_id;
+         }
+ 
+         $this->updateFromList($old_category_id, $old_order);
+         $this->updateToList($task->category_id, $task->order);
+
+         $task->save();
+
+         //$itemTypes = [1, 2, 3, 4, 5];
+
+         //$categories = Category::with('tasks')->get();
+         //dd('sdfsfd');
+
+         //return Inertia.reload('only': ['categories' => $categories]);
+
+         //return Redirect::back()->withInput(['msg' => 'its done']);
+
+//return Redirect::route('category/create')->with('msg', 'State saved correctly!!!');
+
+         return Redirect::back();
+
+         //return Inertia::render('Category/board', ['categories' => $categories, 'msg' => 'Last moved task - '.$task->name]);
+          
+    }
+
+
+    public function updateFromList($category_id, $old_order){
+        $tasks2update = Task::where('category_id', '=', $category_id)->where('order', '>', $old_order)->get();
+
+         foreach ($tasks2update as $task2) {
+            $id2 = $task2->id;
+            $order2 = $task2->order-1;            
+            Task::where('id', '=', $id2)->update(['order' => $order2]);
+         }   
+
+         //echo 'job done';
+
+    }
+
+    public function updateToList($category_id, $order){
+        $tasks2update = Task::where('category_id', '=', $category_id)->where('order', '>=', $order)->get();
+
+         foreach ($tasks2update as $task2) {
+            $id2 = $task2->id;
+            $order2 = $task2->order+1;            
+            Task::where('id', '=', $id2)->update(['order' => $order2]);
+         }   
     }
 
     /**

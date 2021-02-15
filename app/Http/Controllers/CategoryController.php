@@ -18,6 +18,13 @@ class CategoryController extends Controller
     public function index()
     {
         $data = Category::all();
+        //->sortBy(["order","category_id"]);
+        //dd($data);
+        //$data = Category::orderBy("category_id", 'asc')->get();
+        //$data = json_decode($data, true);
+        //dd($data);
+
+
         return Inertia::render('Category/index', ['categories' => $data]);
     }
 
@@ -39,7 +46,20 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::with('tasks')->get();
+       $categories = Category::with('tasks')->get();
+
+        //$categories = json_decode($categories, true);
+        //dd($categories);
+
+        //$categories = Category::join('tasks as tk', 'tk.category_id', '=', 'categories.id')
+       //->orderBy('tk.order', 'asc')->all();
+      // ->select('categories.*')       // just to avoid fetching anything from joined table
+       //->paginate(25);
+
+       if(isset($msg)){
+        die('sfsdf');
+       }
+
         return Inertia::render('Category/board', ['categories' => $categories]);
     }
 

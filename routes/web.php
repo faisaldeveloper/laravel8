@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\CategoryController;
 //use App\Http\Controllers\TaskController;
 
+use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +17,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+Route::get('home', [HomeController::class, 'index'])->name('index');
+Route::get('home/fstest', function (){
+	dd('sdfsdfs2888');
+	//return view('welcome');
+});
+
+Route::post('home/mytest', [HomeController::class, 'mytest'])->name('home.mytest');
 
 Route::get('/about', function () {
     return Inertia\Inertia::render('About');
@@ -26,6 +39,13 @@ Route::get('/about', function () {
 Route::get('/contactus', function () {
     return Inertia\Inertia::render('Contactus');
 })->name('contactus');
+
+Route::get('/movie', function () {
+    //return view('welcome');
+    return Inertia\Inertia::render('Movie');
+})->name('movie');
+
+
 
 Route::resource('category', CategoryController::class);
 Route::resource('task', TaskController::class);

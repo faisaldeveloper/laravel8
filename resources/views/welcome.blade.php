@@ -37,7 +37,7 @@
             @endif
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <p>test blo8</p>
+                <p>test blog-8</p>
             </div>
         </div>
     </body>

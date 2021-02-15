@@ -23,7 +23,7 @@
                 <div class="mx-0 md:mx-auto">
                     <h1 class="text-blue-lighter text-xl flex items-center font-sans italic">
                         <svg class="fill-current h-8 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="M41 4H9C6.24 4 4 6.24 4 9v32c0 2.76 2.24 5 5 5h32c2.76 0 5-2.24 5-5V9c0-2.76-2.24-5-5-5zM21 36c0 1.1-.9 2-2 2h-7c-1.1 0-2-.9-2-2V12c0-1.1.9-2 2-2h7c1.1 0 2 .9 2 2v24zm19-12c0 1.1-.9 2-2 2h-7c-1.1 0-2-.9-2-2V12c0-1.1.9-2 2-2h7c1.1 0 2 .9 2 2v12z"/></svg>
-                        Trello
+                        Trello - {{ msg }}
                     </h1>
                 </div>
                 <div class="flex items-center ml-auto">
@@ -37,21 +37,21 @@
         </div>
         <div class="flex m-4 justify-between">
                 <div class="flex">
-                    <h3 class="text-black mr-4">TailwindComponents.com</h3>
+                    <h3 class="text-black px-2 mr-4">STATS:</h3>
                     <ul class="list-reset text-black hidden md:flex">
-                        <li><span class="font-bold text-lg px-2">☆</span></li>
-                        <li><span class="border-l border-blue-lighter px-2 text-sm">Business Name</span> <span class="rounded-lg bg-blue-light text-xs px-2 py-1">Free</span></li>
-                        <li><span class="border-l border-blue-lighter px-2 text-sm ml-2">Team Visible</span></li>
+                        <li><span class="px-2 text-sm"><b>{{this.categories[0].name}}: {{ this.categories[0].tasks.length}}</b></span></li>
+                        <li><span class="border-l border-blue-lighter px-2 text-sm"><b>{{this.categories[1].name}}: {{ this.categories[1].tasks.length}}</b></span></li>
+                        <li><span class="border-l border-blue-lighter px-2 text-sm ml-2"><b>{{this.categories[2].name}}: {{ this.categories[2].tasks.length}}</b></span></li>
                     </ul>
                 </div>
-                <div class="text-black font-sm text-underlined hidden md:flex items-center underline">
+                <!-- <div class="text-black font-sm text-underlined hidden md:flex items-center underline">
                     <svg class="h-4 fill-current text-black cursor-pointer mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 10a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4z"/></svg>
                     Show menu
-                </div>
+                </div> -->
         </div>
 
             <!--  trello cards main -->
-                <draggable element="div" class="flex px-2 pb-8" v-model="categories" :options="dragOptions1">
+                <draggable element="div" class="flex-auto px-2 pb-8" v-model="categories" v-bind="dragOptions1">
                 <transition-group class="flex px-2">
 
                 <div class="flex px-2 pb-8 items-start" v-for="element,index in categories" :key="element.id">               
@@ -63,13 +63,15 @@
                     <svg class="h-4 fill-current text-grey-dark cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 10a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4z"/></svg>
                 </div>
                     
-                        <!--  trello cards sub -->                        
-                        <draggable element="div" @end="changeOrder" v-model="element.tasks" :options="dragOptions">             
+                        <!--  trello cards sub -->
+                        <br>                        
+                        <draggable element="div" @end="changeOrder" v-model="element.tasks" v-bind="dragOptions">             
                         <transition-group :id="element.id">
-                            <div v-for="task,index in element.tasks" :key="task.category_id+','+task.order" class="transit-1" :id="task.id">
+                            <div v-for="task,index in element.tasks" :key="task.id+','+task.order" class="transit-1" :id="task.id">
                                 <div class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
                             <div class="text-sm mt-2">
-                            <label for="checkbox">{{ task.name }} - 55</label>
+                            <label for="checkbox">{{ task.name }}</label>
+                            <br>
                             
                             </div>
                             </div>
@@ -81,7 +83,7 @@
 
                         <p class="mt-3 bg-indigo-200 text-grey-dark">
                             <form @submit.prevent="submit2(index)">
-                            <input type="text" name="tname" v-model="tname" placeholder="add new task">                        
+                            <input type="text" name="tname" v-model="tname" placeholder="add new task">    
                             <button type="submit">Add</button>
                         </form>
                         </p> 
@@ -109,43 +111,63 @@
                 AppLayout,
                 draggable
             },
-            props: ['categories', 'tasks'],
+            props: ['categories', 'msg'],
 
             data(){
-                return {
-                    tname,
+                return {                    
                     form: {
                         name:'',
                         category_id: '',
                         user_id: '',
                         order: ''
-                    }
+                    },
+                    tname:''
                 }
             },            
             methods : {
                 submit2(id) {
                     //console.log(this.form.name[index]);
                    // this.name = submitEvent.target.elements.name.value
-
                     
-                    var f = this.getformfields;
-                    console.log(f);
-
-                    alert('adding new:'+this.tname);
-
+                    //var f = this.getformfields;
+                    //console.log(f);
+                    //alert('adding new:'+this.tname);
+                   // return ;
+                    if(this.tname =='') return;
                     
-                    this.form.name = 'mkjhg';
+                    this.form.name = this.tname;
                     this.form.category_id = this.categories[id].id;
                     this.form.user_id = 1;
                     this.form.order = this.categories[id].tasks.length;
                     
-                    //console.log(this.form);
-
-                    this.$inertia.post('/task', this.form)
+                    this.$inertia.post(this.route('task'), this.form);
+                    this.tname='';
                 },                
                 loadTasks() {
                 },
                 changeOrder(data){
+                    //console.log('fs-data: '+data.to.id + ' from'+ data.from.id);
+                    //alert('Task:'+ data.item.id+' From: '+data.from.id + ' TO'+ data.to.id);
+
+                    let toTask = data.to
+                    let fromTask = data.from
+                    let task_id = data.item.id
+                    let category_id = fromTask.id == toTask.id ? null : toTask.id
+                    let order = data.newIndex == data.oldIndex ? false : data.newIndex
+                  
+                    //this.$inertia.put(`/category/${category_id}`, {order, task_id});  
+                    //this.$inertia.put(`/task/${task_id}`, {order, category_id});        
+
+                    this.$inertia.visit(`/task/${task_id}`, {
+                    method: 'put',
+                    data: {order, category_id},
+                    only: ['categories', 'msg'],
+                    replace: false,
+                    preserveState: true,
+                    preserveScroll: true,
+                    });
+
+
                 },
                 endEditing(task) {
                 },
@@ -154,6 +176,7 @@
                 }
             },
             mounted(){
+               // console.log('-->'+this.categories[1].name);
             },
             computed: {
                 dragOptions () {
@@ -162,6 +185,9 @@
                     group: 'description',
                     ghostClass: 'ghost'
                   };
+                },
+                dragOptions1 () {
+                  return ;
                 },
                 getformfields(){
                     return {                    
@@ -173,6 +199,7 @@
                         }
                     };
                 },
+                
             }
             
     }

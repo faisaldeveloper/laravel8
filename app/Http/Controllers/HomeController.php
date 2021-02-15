@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -23,6 +24,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+       echo 'asdfsafdsfs444';
+       // return view('home');
+    }
+
+    public function index2()
+    {
+       echo 'asdfsafdsfs6677';
+       // return view('home');
+    }
+
+    public function mytest(Request $request){
+        //dd($_POST);
+
+        //echo '-----sdfs---99999----fsdfsf------';    return '';
+        $data = $request['name'];
+        //$data = response()->json($data);
+
+        return Inertia::render('Contactus', ['msg' => "It's done...you entered: ". $data]);
     }
 }

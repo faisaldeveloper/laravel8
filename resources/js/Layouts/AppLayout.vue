@@ -33,6 +33,11 @@
                             <jet-nav-link :href="route('category.create')" :active="$page.currentRouteName == 'category.create'">
                                 Trello
                             </jet-nav-link>
+
+                            <jet-nav-link :href="route('movie')" :active="$page.currentRouteName == 'movie'">
+                                Movies
+                            </jet-nav-link>
+
                         </div>
                     </div>
 
